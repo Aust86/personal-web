@@ -1,0 +1,262 @@
+---
+import CarouselItems from "../CreationSlides.json";
+---
+
+<section class="carousel-container" aria-label="Creations">
+    <div class="carousel-contents">
+        <button class="carousel-button prev" aria-label="Previous creation">&#171;</button>
+        <button class="carousel-button next" aria-label="Next creation">&#187;</button>
+
+        <ul class="slides">
+            {CarouselItems.map((item, index) => (
+                <li class="slide" data-active={index === 0 ? "" : undefined}>
+                    <div class="media-card">
+                        <div class="media">
+                            {item.type === "youtube" && (
+                                <iframe
+                                    data-src={item.content}
+                                    title={item.name}
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen
+                                ></iframe>
+                            )}
+
+                            {item.type === "image" && (
+                                <button class="carousel-button fullscreen" aria-label="Open in New Tab">&#8599;</button>
+                                <img
+                                    src={item.content}
+                                    alt={item.name}
+                                />
+                            )}
+
+                            {item.type === "tiktok" && (
+                                <iframe
+                                    data-src={`https://www.tiktok.com/player/v1/${item.content.split("/video/")[1]}`}
+                                    title={item.name}
+                                    frameborder="0"
+                                    allow="encrypted-media;"
+                                    allowfullscreen
+                                ></iframe>
+                            )}
+                        </div>
+
+                        <div class="info">
+                            <h2>{item.name}</h2>
+                            <p>{item.description}</p>
+                        </div>
+                    </div>
+                </li>
+            ))}
+        </ul>
+    </div>
+</section>
+
+<script>
+    const carousel = document.querySelector(".carousel-contents");
+
+    if (carousel) {
+        const slides = Array.from(carousel.querySelectorAll(".slide"));
+        const previous = carousel.querySelector(".prev");
+        const next = carousel.querySelector(".next");
+
+        let current = 0;
+
+        function showSlide(index : number) {
+            current = (index + slides.length) % slides.length;
+
+            slides.forEach((slide, i) => {
+                const iframe = slide.querySelector("iframe");
+                if (i === current) {
+                    slide.setAttribute("data-active", "");
+
+                    if (iframe && !iframe.src) {
+                        iframe.src = iframe.dataset.src || "";
+                    }
+                } else {
+                    slide.removeAttribute("data-active");
+
+                    if (iframe) {
+                        iframe.removeAttribute("src");
+                    }
+                }
+            });
+        }
+
+        previous?.addEventListener("click", () => {
+            showSlide(current - 1);
+        });
+
+        next?.addEventListener("click", () => {
+            showSlide(current + 1);
+        });
+
+        
+        showSlide(0);
+
+        const fullscreenButtons = carousel.querySelectorAll(".fullscreen");
+
+        fullscreenButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                 const image = button.parentElement?.querySelector("img");
+
+                if (image) {
+                    window.open(image.src, "_blank");
+                }
+            });
+        });
+    }
+</script>
+
+<style>
+    .carousel-container {
+        width: 100%;
+    }
+
+    .carousel-contents {
+        position: relative;
+        width: 100%;
+    }
+
+    .slides {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition:
+            opacity 0.3s ease,
+            visibility 0.3s ease;
+    }
+
+    .slide[data-active] {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    .media-card {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border-radius: 1rem;
+        background: var(--background-color);
+        box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.4);
+    }
+
+    .media {
+        position: relative;
+        width: 100%;
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .media iframe,
+    .media img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        object-fit: cover;
+    }
+
+    .info {
+        flex-shrink: 0;
+        padding: 1rem 1.25rem;
+        background: rgba(17, 15, 16, 0.95);
+    }
+
+    .info h2 {
+        margin: 0 0 0.4rem;
+        font-size: clamp(1.25rem, 2vw, 2rem);
+        font-family: 'Dela Gothic One', sans-serif;
+        font-weight: 400;
+    }
+
+    .info p {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .carousel-button {
+        position: absolute;
+        z-index: 10;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3rem;
+        height: 3rem;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(17, 15, 16, 0.8);
+        color: white;
+        font-size: 2rem;
+        line-height: 1;
+        cursor: pointer;
+        transition:
+            background 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .carousel-button:hover {
+        background: var(--primary-color);
+    }
+
+    .carousel-button:active {
+        transform: translateY(-50%) scale(0.9);
+    }
+
+    .carousel-button.prev {
+        left: 1rem;
+    }
+
+    .carousel-button.next {
+        right: 1rem;
+    }
+
+    .carousel-button.fullscreen {
+        right: 1rem;
+        top: 2rem;
+    }
+
+    @media (max-width: 700px) {
+        .slides {
+            aspect-ratio: 4 / 5;
+        }
+
+        .carousel-button {
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 1.5rem;
+        }
+
+        .carousel-button.prev {
+            left: 0.5rem;
+        }
+
+        .carousel-button.next {
+            right: 0.5rem;
+        }
+
+        .info {
+            padding: 0.8rem 1rem;
+        }
+
+        .info p {
+            font-size: 0.9rem;
+        }
+    }
+</style>

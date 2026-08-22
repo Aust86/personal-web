@@ -1,0 +1,108 @@
+---
+const age = new Date().getFullYear() - 2011 - (new Date() < new Date(new Date().getFullYear(), 11, 18) ? 1 : 0)
+
+const ySinceBlender = new Date().getFullYear() - 2019;
+
+import CarouselAstroComponent from "./Carousel.astro";
+---
+
+<div class="about">
+    <h1 id="header">About Me</h1>
+
+    <div class="about-content">
+        <div class="about-text">
+            <p>
+                I'm a {age} year old 3D artist and programmer who has {ySinceBlender} years of experience in blender and has written almost 1 million lines of code.
+                I do found footage style animations, artistic renders, and overall love the workflow of the blender program, doing VFX, motion tracking, compositing, video editing,
+                rendering, image editing, etc all in the program. I believe everyone should get to know this program. I also use Visual Studio Code and am familiar with the languages
+                Lua, Typescript, Python, and C.
+            </p>
+        </div>
+
+        <div class="carousel">
+            <CarouselAstroComponent />
+        </div>
+    </div>
+</div>
+
+<style>
+.about {
+    width: 100%;
+    padding-bottom: 8.222vw;
+    background-image: url("/Chevron.svg");
+    background-size: 50%;
+    background-repeat: repeat;
+    padding-top: 22.222vw;
+    color: white;
+}
+
+#header {
+    position: relative;
+    width: fit-content;
+    margin: 0 auto;
+    text-align: center;
+    font-size: clamp(3rem, 8vw, 10rem);
+    -webkit-text-stroke: 1rem var(--primary-color);
+    paint-order: stroke fill;
+}
+
+#header::after {
+    content: "";
+    position: absolute;
+    left: -20px;
+    bottom: -10px;
+    width: calc(100% + 40px);
+    height: 10px;
+    background-color: var(--secondary-color);
+}
+
+.about-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5rem;
+    width: 90%;
+    max-width: 1400px;
+    margin: 3rem auto 0;
+}
+
+.about-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.about-text p {
+    width: 100%;
+    margin: 0;
+    font-size: x-large;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.carousel {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+}
+
+@media (max-width: 700px) {
+    .about {
+        padding-top: 15vw;
+    }
+
+    .about-content {
+        flex-direction: column;
+        width: 90%;
+        gap: 3rem;
+    }
+
+    .about-text,
+    .carousel {
+        width: 100%;
+    }
+
+    #header {
+        -webkit-text-stroke: 0.5rem var(--primary-color);
+    }
+}
+</style>

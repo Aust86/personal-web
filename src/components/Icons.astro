@@ -1,0 +1,23 @@
+---
+    import Youtube from "../Icons/YouTube.svg"
+    import Tiktok from "../Icons/TikTok.svg"
+    import Twitter from "../Icons/Twitter.svg"
+    import Discord from "../Icons/Discord.svg"
+
+    interface Props {
+        icon: "youtube" | "tiktok" | "twitter" | "discord";
+    };
+
+    const { icon } = Astro.props;
+---
+
+{icon === "youtube" && <Youtube />}
+{icon === "tiktok" && <Tiktok />}
+{icon === "twitter" && <Twitter />}
+{icon === "discord" && <Discord />}
+
+<style>
+    svg {
+        fill: white;
+    }
+</style>
