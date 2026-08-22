@@ -3,9 +3,10 @@
     import Tiktok from "../Icons/TikTok.svg"
     import Twitter from "../Icons/Twitter.svg"
     import Discord from "../Icons/Discord.svg"
+    import Kofi from "../Icons/Ko-Fi.svg"
 
     interface Props {
-        icon: "youtube" | "tiktok" | "twitter" | "discord";
+        icon: "youtube" | "tiktok" | "twitter" | "discord" | "kofi";
     };
 
     const { icon } = Astro.props;
@@ -15,6 +16,7 @@
 {icon === "tiktok" && <Tiktok />}
 {icon === "twitter" && <Twitter />}
 {icon === "discord" && <Discord />}
+{icon === "kofi" && <Kofi />}
 
 <style>
     svg {

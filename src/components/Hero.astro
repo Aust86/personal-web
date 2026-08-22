@@ -10,6 +10,7 @@ import IconsAstroComponent from "./Icons.astro"
         <h1>Frame</h1>
         <p>3D Artist & Not Professional Coder</p>
         <div id="links">
+            <a href="https://ko-fi.com/framevfx" target="_blank" aria-label="Ko-Fi"><IconsAstroComponent icon="kofi"/></a>
             <a href="https://www.youtube.com/@frame222c" target="_blank" aria-label="YouTube"><IconsAstroComponent icon="youtube"/></a>
             <a href="https://www.tiktok.com/@frame_cgi" target="_blank" aria-label="TikTok"><IconsAstroComponent icon="tiktok"/></a>
             <a href="https://x.com/Frame222_c" target="_blank" aria-label="Twitter"><IconsAstroComponent icon="twitter"/></a>
@@ -83,13 +84,24 @@ import IconsAstroComponent from "./Icons.astro"
             #links {
                 display: flex;
                 align-items: center;
-                justify-content: space-evenly;
+                justify-content: flex-end;
+                gap: clamp(0.4rem, 1.5vw, 1rem);
+                width: min(100%, 30rem);
+                margin-left: auto;
+
                 a {
-                    aspect-ratio: 1 /1;
+                    flex: 1 1 0;
+                    min-width: 0;
+                    max-width: 4rem;
+                    aspect-ratio: 1;
                     border: 0;
-                    border-radius: 1000%;
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                     svg {
-                        scale: 80%;
+                        width: 80%;
+                        height: 80%
                     }
                     background: rgba(17, 15, 16, 0.8);
                     cursor: pointer;
