@@ -17,16 +17,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9 # Or whatever version you use locally, or 'latest'
-
-      - name: Setup Node.js
+      - name: Setup Node.js & pnpm
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'pnpm' # Important: tells GitHub to cache pnpm dependencies
+          node-version: '22' # Node 22 avoids the Node 20 deprecation warning
+          cache: 'pnpm'      # Natively installs pnpm and caches the store
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
