@@ -3,7 +3,7 @@ name: Build and Zip Astro Project
 on:
   push:
     branches:
-      - master
+      - master # Changed from 'main' to 'master' based on your logs
   pull_request:
     branches:
       - master
@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node.js & pnpm
         uses: actions/setup-node@v4
         with:
-          node-version: '22' # Node 22 avoids the Node 20 deprecation warning
+          node-version: '22' # Explicitly using 22 to avoid Node 20 deprecation warnings
           cache: 'pnpm'      # Natively installs pnpm and caches the store
 
       - name: Install dependencies
