@@ -3,10 +3,10 @@ name: Build and Zip Astro Project
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
   workflow_dispatch: # Enables manual triggering from the Actions tab
 
 jobs:
@@ -17,17 +17,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9 # Or whatever version you use locally, or 'latest'
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+          cache: 'pnpm' # Important: tells GitHub to cache pnpm dependencies
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Build Astro project
-        run: npm run build
+        run: pnpm run build
 
       - name: Zip build output
         run: zip -r build-artifact.zip dist/
