@@ -17,14 +17,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 1. Install pnpm FIRST so setup-node can find it for caching
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9 # Replace with the pnpm version your project uses (e.g., 8, 9, or 10)
+
+      # 2. Now setup-node will successfully locate pnpm and configure the cache
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'pnpm'  # This enables caching of the pnpm store
-
-      - name: Install pnpm
-        run: npm install -g pnpm@latest  # Or specify a version like pnpm@9
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
