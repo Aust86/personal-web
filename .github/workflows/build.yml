@@ -3,11 +3,11 @@ name: Build and Zip Astro Project
 on:
   push:
     branches:
-      - master # Changed from 'main' to 'master' based on your logs
+      - master
   pull_request:
     branches:
       - master
-  workflow_dispatch: # Enables manual triggering from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
@@ -17,11 +17,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js & pnpm
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22' # Explicitly using 22 to avoid Node 20 deprecation warnings
-          cache: 'pnpm'      # Natively installs pnpm and caches the store
+          node-version: '22'
+          cache: 'pnpm'  # This enables caching of the pnpm store
+
+      - name: Install pnpm
+        run: npm install -g pnpm@latest  # Or specify a version like pnpm@9
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
