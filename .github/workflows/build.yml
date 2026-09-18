@@ -17,17 +17,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 1. Install pnpm globally using npm (bypasses the pnpm/action-setup cache bug)
+      - name: Install pnpm
+        run: npm install -g pnpm@9
+
+      # 2. Setup Node.js and let IT handle the pnpm caching natively
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          # ⚠️ DO NOT put cache: 'pnpm' here. It causes the "packages field missing or empty" crash.
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9 # Change to 8 or 10 if your project requires a specific version
-          cache: true # ✅ Let pnpm's official action handle the caching safely
+          cache: 'pnpm' # ✅ This now works perfectly because pnpm is in the PATH and pnpm-workspace.yaml is fixed
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
