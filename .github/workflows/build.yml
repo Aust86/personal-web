@@ -17,18 +17,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 1. Install pnpm FIRST so setup-node can find it for caching
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9 # Replace with the pnpm version your project uses (e.g., 8, 9, or 10)
-
-      # 2. Now setup-node will successfully locate pnpm and configure the cache
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'pnpm'
+          # ⚠️ DO NOT put cache: 'pnpm' here. It causes the "packages field missing or empty" crash.
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9 # Change to 8 or 10 if your project requires a specific version
+          cache: true # ✅ Let pnpm's official action handle the caching safely
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
